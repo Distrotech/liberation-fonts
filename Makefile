@@ -56,13 +56,20 @@ $(EXPORTDIR):
 FORMATS = ttf
 ttf-dir:: $(SFDFILES)
 	$(FONTFORGE) -script $(EXPORTSCRIPT) -ttf $^
-	$(PYTHON) $(FONTTOOLSCRIPT) src/LiberationMono-*.ttf
-	mv  src/LiberationMono-Regular-fixed.ttf  src/LiberationMono-Regular.ttf
-	mv  src/LiberationMono-Italic-fixed.ttf  src/LiberationMono-Italic.ttf
-	mv  src/LiberationMono-Bold-fixed.ttf  src/LiberationMono-Bold.ttf
-	mv  src/LiberationMono-BoldItalic-fixed.ttf  src/LiberationMono-BoldItalic.ttf
+#	$(PYTHON) $(FONTTOOLSCRIPT) src/LiberationMono-*.ttf
+#	mv  src/LiberationMono-Regular-fixed.ttf  src/LiberationMono-Regular.ttf
+#	mv  src/LiberationMono-Italic-fixed.ttf  src/LiberationMono-Italic.ttf
+#	mv  src/LiberationMono-Bold-fixed.ttf  src/LiberationMono-Bold.ttf
+#	mv  src/LiberationMono-BoldItalic-fixed.ttf  src/LiberationMono-BoldItalic.ttf
 	mkdir -p $(DISTPREFIX_TTF)
 	mv $(addsuffix .ttf,$(basename $^)) $(DISTPREFIX_TTF)
+
+install: ttf-dir
+	mkdir -p ${DESTDIR}/usr/share/fonts/truetype/liberation || true
+	cp $(DISTPREFIX_TTF)/* ${DESTDIR}/usr/share/fonts/truetype/liberation
+
+#	mkdir -p ${DESTDIR}/usr/share/fonts/truetype/ttf-dejavu/ || true
+#        cp build/*.ttf ${DESTDIR}/usr/share/fonts/truetype/ttf-dejavu/
 
 # web sites usage
 # Web Open Font Format (WOFF); for all modern browsers (W3C recommendation)
